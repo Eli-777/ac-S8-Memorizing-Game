@@ -1,3 +1,11 @@
+const GAME_STATE = {
+  FirstCardAwaits: "FirstCardAwaits",
+  SecondCardAwaits: "SecondCardAwaits",
+  CardsMatchFailed: "CardsMatchFailed",
+  CardsMatched: "CardsMatched",
+  GameFinished: "GameFinished",
+}
+
 const Symbols = [
   'https://image.flaticon.com/icons/svg/105/105223.svg', // 黑桃
   'https://image.flaticon.com/icons/svg/105/105220.svg', // 愛心
@@ -34,9 +42,9 @@ const view = {
         return number
     }
   },
-  displayCards() {
+  displayCards(indexes) {
     const rootElement = document.querySelector('#cards')
-    rootElement.innerHTML = utility.getRandomNumberArray(52).map(index => this.getCardElement(index)).join("");
+    rootElement.innerHTML = indexes.map(index => this.getCardElement(index)).join("");
   },
   flipCard(card) {
     console.log(card)
@@ -63,7 +71,21 @@ const utility = {
   }
 }
 
-view.displayCards()
+
+const model = {
+  revealedCards: []
+}
+
+const controller = {
+  currentState: GAME_STATE.FirstCardAwaits,  // 加在第一行
+  generateCards() {
+    view.displayCards(utility.getRandomNumberArray(52))
+  } 
+}
+
+
+
+controller.generateCards() 
 
 
 document.querySelectorAll('.card').forEach(card => {
