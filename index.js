@@ -8,16 +8,18 @@ const Symbols = [
 
 const view = {
   getCardElement(index) {
+    return `<div data-index="${index}" class="card back"></div>`
+  },
+  getCardContent(index) {
     const number = this.transformNumber((index % 13) + 1)
     const symbol = Symbols[Math.floor(index / 13)]
-    return`
-      <div class="card">
-        <p>${number}</p>
-        <img src="${symbol}" />
-        <p>${number}</p>
-      </div>
+    return `
+      <p>${number}</p>
+      <img src="${symbol}" />
+      <p>${number}</p>
     `
   },
+  
   transformNumber(number) {
     switch (number) {
       case 1:
@@ -32,9 +34,21 @@ const view = {
         return number
     }
   },
-  displayCards(number) {
+  displayCards() {
     const rootElement = document.querySelector('#cards')
     rootElement.innerHTML = utility.getRandomNumberArray(52).map(index => this.getCardElement(index)).join("");
+  },
+  flipCard(card) {
+    console.log(card)
+    if (card.classList.contains('back')) {
+      // 回傳正面
+      card.classList.remove('back')
+      card.innerHTML = this.getCardContent(Number(card.dataset.index)) 
+      return
+    }
+    // 回傳背面
+    card.classList.add('back')
+    card.innerHTML = null
   }
 }
 
@@ -49,8 +63,14 @@ const utility = {
   }
 }
 
-view.displayCards(25)
+view.displayCards()
 
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', event => {
+    view.flipCard(card)
+  })
+})
 
 
 
