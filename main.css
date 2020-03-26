@@ -48,6 +48,7 @@
   flex-direction: column;
   align-items: flex-end;
   width: 85%;
+  height: 8em;
 }
 #header .title {
   width: 100%;
